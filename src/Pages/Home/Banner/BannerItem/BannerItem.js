@@ -6,7 +6,7 @@ const BannerItem = ({slide}) => {
     return (
         <div id={`slide${id}`} className="carousel-item relative w-full">
                 <div className='img-gradient'>
-                    <img alt="" src={picture} className="w-full" />
+                    <img alt="" src={picture} className="w-full rounded-xl" />
                 </div>
                 <div className="absolute flex justify-end transform -translate-y-1/2 left-20 text-6xl text-white font-bold  top-1/4">
                     <h1>
