@@ -11,7 +11,7 @@ const ServiceCart = ({ service }) => {
                 <p className='text-xl text-orange-600 font-semibold'>Price: ${price}</p>
                 <div className="card-actions justify-end">
                     <Link to={`/services/${_id}`}>
-                        <button className="btn btn-primary">Buy Now</button>
+                        <button className="btn btn-primary">Checkout Now</button>
                     </Link>
                 </div>
             </div>

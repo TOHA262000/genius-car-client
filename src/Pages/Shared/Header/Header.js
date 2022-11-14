@@ -18,6 +18,7 @@ const Header = () => {
 
     const menuItems = <>
             <Link className='font-semibold mr-2' to="/">Home</Link>
+            <Link className='font-semibold mr-2' to="/orders">Orders</Link>
             <div>
                 {user?<button onClick={handleSignOut} className='font-semibold mr-2'>SignOut</button>:<Link className='font-semibold' to="/login">Login</Link>}
             </div>
