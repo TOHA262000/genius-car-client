@@ -1,30 +1,50 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import picture from '../../assets/images/login/login.svg';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
-import {FcGoogle} from 'react-icons/fc';
+import { FcGoogle } from 'react-icons/fc';
 
 const Login = () => {
-    const {signIn,googleSignIn}=useContext(AuthContext);
-    const handleLogin =event=>{
+    const { setLoading, signIn, googleSignIn } = useContext(AuthContext);
+
+    // For which page are you from
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
+
+    const handleLogin = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        signIn(email,password)
-        .then(res=>{
-            const user = res.user;
-            console.log(user);
-        })
-        .catch(err=> console.error(err));
+        signIn(email, password)
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                form.reset();
+                if (user.emailVerified) {
+                    navigate(from, { replace: true });
+                }
+                else{
+                    alert('Your email is not varified');
+                }
+            })
+            .catch(err => console.error(err))
+            .finally(() => {
+                setLoading(false)
+            });
+
     }
-    const handleGoogleSignIn = () =>{
+    const handleGoogleSignIn = () => {
         googleSignIn()
-        .then(res => {
-            const user = res.user;
-            console.log(user);
-        })
-        .catch(err=>console.error(err));
+            .then(res => {
+                const user = res.user;
+                console.log(user);
+                if (user.emailVerified) {
+                    navigate(from, { replace: true });
+                }
+            })
+            .catch(err => console.error(err));
     }
     return (
         <div className="hero py-8">
@@ -57,7 +77,7 @@ const Login = () => {
                         <div className="form-control">
                             <p className="text-center my-2">Or Sign In with</p>
                             <div className='flex justify-center items-center text-2xl'>
-                            <button onClick={handleGoogleSignIn}><FcGoogle></FcGoogle></button>
+                                <button onClick={handleGoogleSignIn}><FcGoogle></FcGoogle></button>
                             </div>
                         </div>
                     </div>

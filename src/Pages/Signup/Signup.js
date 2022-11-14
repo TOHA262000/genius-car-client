@@ -4,19 +4,26 @@ import picture from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const Signup = () => {
-    const {creatUser} = useContext(AuthContext);
-    const handleSignup =event=>{
+    const { creatUser, verifyEmail } = useContext(AuthContext);
+    const handleSignup = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        creatUser(email,password)
-        .then(res=>{
-            const user = res.user;
-            console.log(user);
-        })
-        .catch(err=>console.error(err));
+        creatUser(email, password)
+            .then(res => {
+                const user = res.user;
+                verifyEmail()
+                    .then(() => {
+                        alert('Please check your email and varify');
+                        form.reset();
+                     })
+                    .catch(err => console.error(err));
+                console.log(user);
+            })
+            .catch(err => console.error(err));
     }
+    
     return (
         <div className="hero py-8">
             <div className="hero-content grid md:grid-cols-2 flex-col">
@@ -43,7 +50,7 @@ const Signup = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input required name='password' type="password" placeholder="password" className="input input-bordered" />
-                            
+
                         </div>
                         <div className="form-control mt-6">
                             <input className="btn btn-primary" type="submit" value="Signup" />
